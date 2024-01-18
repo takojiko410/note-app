@@ -8,6 +8,8 @@ const PORT = 5050;
 
 require("dotenv").config();
 
+app.use(express.json());
+
 //DB接続
 try {
   mongoose.connect(process.env.MONGODB_URL);
