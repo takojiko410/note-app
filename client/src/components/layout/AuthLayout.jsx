@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import {Container} from "@mui/system";
 import React from 'react'
 import { Outlet } from 'react-router'
-import notionLogo from "../../assets/images/notion-logo.png";
+import Logo from "../../assets/images/logo.png";
 
 const AuthLayout = () => {
   return (
@@ -14,13 +14,13 @@ const AuthLayout = () => {
           alignItems: "center",
           flexDirection: "column",
         }}>
-          <img src={notionLogo} alt="" 
-            style={{width: 100, heigh: 100, marginBottom: 3}}
+          <img src={Logo} alt="" 
+            style={{width: 200, heigh: 200, marginBottom: -50, marginTop: -30}}
           />
-          Notionクローン開発
+        
         </Box>
+        <Outlet/>
       </Container>
-      <Outlet/>
     </div>
   )
 }
