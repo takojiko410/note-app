@@ -5,7 +5,7 @@ import {useEffect} from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Logo from "../../assets/images/logo.png";
 import authUtils from "../../utils/authUtils";
-import Sidebar from "./common/Sidebar";
+import Sidebar from "../common/Sidebar";
 
 const AppLayout = () => {
   const navigate = useNavigate();
