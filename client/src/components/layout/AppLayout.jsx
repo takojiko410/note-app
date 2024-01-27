@@ -6,9 +6,12 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import Logo from "../../assets/images/logo.png";
 import authUtils from "../../utils/authUtils";
 import Sidebar from "../common/Sidebar";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/features/userSlice";
 
 const AppLayout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //JWTを持っているのか確認する
@@ -17,6 +20,10 @@ const AppLayout = () => {
       const user = await authUtils.isAuthenticated();
       if(!user) {
         navigate("/login");
+      } else {
+        //ユーザを保存する
+        dispatch(setUser(user));
+
       }
     }
     checkAuth();
