@@ -1,19 +1,35 @@
 import { Box, Drawer, IconButton, List, ListItemButton, Typography } from '@mui/material'
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined"
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined"
-import React from 'react'
+import React, { useEffect } from 'react'
 import assets from '../../assets/index'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
+import memoApi from '../../api/memoApi'
+import { setMemo }from "../../redux/features/memoSlice";
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.value);
+  const memos = useSelector((state) => state.memo.value);
 
   const logout = () => {
     localStorage.removeItem("token");
     navigate("/login");
-  }
+  };
+
+  useEffect(() => {
+    const getMemos = async() => {
+      try {
+        const res = await memoApi.getAll();
+        dispatch(setMemo(res));
+      } catch(err) {
+        alert(err);
+      }
+    };
+    getMemos();
+  }, [dispatch]);
 
   return (
     <Drawer
@@ -52,21 +68,13 @@ const Sidebar = () => {
             </IconButton>
           </Box>
         </ListItemButton>
-        <ListItemButton sx={{pl: "20px"}} component={Link} to="/memo/fkasj24132fjas">
-          <Typography>
-            📝仮置きのメモ
-          </Typography>
-        </ListItemButton>
-        <ListItemButton sx={{pl: "20px"}} component={Link} to="/memo/fkasj24132fjas">
-          <Typography>
-            📝仮置きのメモ
-          </Typography>
-        </ListItemButton>
-        <ListItemButton sx={{pl: "20px"}} component={Link} to="/memo/fkasj24132fjas">
-          <Typography>
-            📝仮置きのメモ
-          </Typography>
-        </ListItemButton>
+        {memos.map((item, index) => (
+          <ListItemButton sx={{pl: "20px"}} component={Link} to={`/memo/${item._id}`} key={item._id}>
+            <Typography>
+              {item.icon} {item.title}
+            </Typography>
+          </ListItemButton>
+        ))}
       </List>
     </Drawer>
   )
