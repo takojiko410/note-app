@@ -9,6 +9,12 @@ router.post("/", tokenHandler.verifyToken, memoController.create);
 router.get("/", tokenHandler.verifyToken, memoController.getAll);
 
 //ログインしているユーザが投稿したメモを1つ取得
-router.get("/:memo", tokenHandler.verifyToken, memoController.getOne);
+router.get("/:memoId", tokenHandler.verifyToken, memoController.getOne);
+
+//ログインしているユーザが投稿したメモを1つ更新
+router.put("/:memoId", tokenHandler.verifyToken, memoController.update);
+
+//ログインしているユーザが投稿したメモを1つ削除
+router.delete("/:memoId", tokenHandler.verifyToken, memoController.delete);
 
 module.exports = router;
