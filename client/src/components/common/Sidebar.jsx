@@ -3,7 +3,7 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined"
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined"
 import React, { useEffect, useState } from 'react'
 import assets from '../../assets/index'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector} from "react-redux";
 import memoApi from '../../api/memoApi'
 import { setMemo }from "../../redux/features/memoSlice";
@@ -38,6 +38,17 @@ const Sidebar = () => {
     setActiveIndex(activeIndex);
   }, [navigate]);
 
+  const addMemo = async () => {
+    try {
+      const res = await memoApi.create();
+      const newMemos = [res, ...memos];
+      dispatch(setMemo(newMemos));
+      navigate(`memo/${res._id}`);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
   return (
     <Drawer
       container={window.document.body}
@@ -70,7 +81,7 @@ const Sidebar = () => {
             <Typography variant="body2" fontWeight="700">
               プライベート
             </Typography>
-            <IconButton>
+            <IconButton onClick={() => addMemo()}>
               <AddBoxOutlinedIcon fontSize="small" />
             </IconButton>
           </Box>
